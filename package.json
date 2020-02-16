@@ -47,6 +47,7 @@
     "singleQuote": true,
     "arrowParens": "always",
     "semi": true,
-    "useTabs": false
+    "useTabs": false,
+    "trailingComma": "all"
   }
 }
