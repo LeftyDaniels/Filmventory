@@ -1,20 +1,23 @@
 import * as React from 'react';
 import { Movie } from '../';
-import { Grid, Typography, makeStyles } from '@material-ui/core';
+import { Grid, Typography, makeStyles, Button } from '@material-ui/core';
+import { useApi } from '../../hooks';
+import { APIActions } from '../../hooks/useApi/useApi';
 
 export interface IResultsProps {}
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles({
   root: {},
   header: {},
   results: {
     listStyle: 'none',
     padding: 0,
   },
-}));
+});
 
 export const Results: React.FC<IResultsProps> = (props) => {
   const styles = useStyles();
+  const api = useApi(APIActions.search, 'test');
 
   return (
     <Grid
@@ -43,6 +46,8 @@ export const Results: React.FC<IResultsProps> = (props) => {
       >
         <Movie />
       </Grid>
+
+      <Button>Test Store</Button>
     </Grid>
   );
 };

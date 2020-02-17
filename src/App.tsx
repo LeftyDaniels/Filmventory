@@ -2,11 +2,11 @@ import * as React from 'react';
 import { Header, Footer, Search, Results } from './components';
 import { Grid, CssBaseline, makeStyles } from '@material-ui/core';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles({
   root: {
     height: '100vh',
   },
-}));
+});
 
 function App() {
   const styles = useStyles();
