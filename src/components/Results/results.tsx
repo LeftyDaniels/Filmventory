@@ -1,10 +1,11 @@
 import * as React from 'react';
 import { Movie } from '../';
-import { Grid, Typography, makeStyles, Button } from '@material-ui/core';
-import { useApi } from '../../hooks';
-import { APIActions } from '../../hooks/useApi/useApi';
+import { Grid, Typography, makeStyles } from '@material-ui/core';
+import { IAPIResults } from '../../hooks';
 
-export interface IResultsProps {}
+export interface IResultsProps {
+  list?: IAPIResults;
+}
 
 const useStyles = makeStyles({
   root: {},
@@ -15,9 +16,8 @@ const useStyles = makeStyles({
   },
 });
 
-export const Results: React.FC<IResultsProps> = (props) => {
+export const Results: React.FC<IResultsProps> = ({ list, ...props }) => {
   const styles = useStyles();
-  const api = useApi(APIActions.search, 'test');
 
   return (
     <Grid
@@ -26,6 +26,7 @@ export const Results: React.FC<IResultsProps> = (props) => {
       justify="center"
       className={styles.root}
       alignContent="flex-start"
+      {...props}
     >
       <Grid component="header" item xs={8} className={styles.header}>
         <Typography
@@ -39,15 +40,22 @@ export const Results: React.FC<IResultsProps> = (props) => {
 
       <Grid
         component="ol"
+        container
         item
         xs={8}
         aria-describedby="movie-lookup-search-results-header"
         className={styles.results}
+        spacing={2}
+        justify="center"
       >
-        <Movie />
+        {list &&
+          list.results &&
+          list.results.map((movie) => (
+            <Grid item xs={12} sm={6} md={4} lg={3}>
+              <Movie key={movie.id} movie={movie} />
+            </Grid>
+          ))}
       </Grid>
-
-      <Button>Test Store</Button>
     </Grid>
   );
 };

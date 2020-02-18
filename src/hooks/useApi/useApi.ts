@@ -5,7 +5,36 @@ export enum APIActions {
   search = 'search/movie',
 }
 
-export const useApi = async (action: APIActions, term: string) => {
+export interface IAPIResults {
+  page: number;
+  total_results: number;
+  total_pages: number;
+  results: IAPIResultObject[];
+}
+
+export interface IAPIResultObject {
+  popularity: number;
+  vote_count: number;
+  video: boolean;
+  poster_path: string;
+  id: number;
+  adult: boolean;
+  backdrop_path: string;
+  original_language: string;
+  original_title: string;
+  genre_ids: number[];
+  title: string;
+  vote_average: number;
+  overview: string;
+  release_date: string;
+}
+
+export type TUseApi = () => <T>(a: APIActions, t: string) => Promise<T>;
+
+export const useApi: TUseApi = () => async <T>(
+  action: APIActions,
+  term: string,
+) => {
   let api: string;
 
   switch (action) {
@@ -14,7 +43,9 @@ export const useApi = async (action: APIActions, term: string) => {
     }
   }
 
-  return;
+  const response = await fetch(api);
+
+  return await response.json().then<T>();
 };
 
 export default useApi;

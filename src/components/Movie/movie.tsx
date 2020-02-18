@@ -1,24 +1,28 @@
 import * as React from 'react';
-import { Typography, makeStyles, Paper, Grid } from '@material-ui/core';
+import { makeStyles, Paper } from '@material-ui/core';
+import { MoviePoster } from '../';
+import { IAPIResultObject } from '../../hooks';
 
-export interface IMovieProps {}
+export interface IMovieProps {
+  movie: IAPIResultObject;
+}
 
 const useStyles = makeStyles((theme) => ({
   root: {
     padding: theme.spacing(2),
+    height: '100%',
+  },
+  poster: {
+    margin: 0,
   },
 }));
 
-export const Movie: React.FC<IMovieProps> = (props) => {
+export const Movie: React.FC<IMovieProps> = ({ movie, ...props }) => {
   const styles = useStyles();
 
   return (
-    <Paper component="li" className={styles.root}>
-      <Grid component="article" container>
-        <Grid component="header" item>
-          <Typography variant="h3">Movie Result</Typography>
-        </Grid>
-      </Grid>
+    <Paper component="li" className={styles.root} {...props}>
+      <MoviePoster poster={movie.poster_path} title={movie.title} />
     </Paper>
   );
 };
