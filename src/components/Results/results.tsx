@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { Movie } from '../';
 import { Grid, Typography, makeStyles } from '@material-ui/core';
-import { IAPIResults } from '../../hooks';
+import { IAPIResults, APIActions, useApi } from '../../hooks';
+import { useParams } from 'react-router-dom';
 
 export interface IResultsProps {
   list?: IAPIResults;
@@ -16,8 +17,20 @@ const useStyles = makeStyles({
   },
 });
 
-export const Results: React.FC<IResultsProps> = ({ list, ...props }) => {
+export const Results: React.FC<IResultsProps> = ({ ...props }) => {
+  const [results, setResults] = React.useState<IAPIResults | undefined>();
   const styles = useStyles();
+  const api = useApi();
+  const { search } = useParams();
+
+  const searchHandler = async (term: string = '') => {
+    const searchResults = await api<IAPIResults>(APIActions.search, term);
+    setResults(searchResults);
+  };
+
+  React.useEffect(() => {
+    searchHandler(search);
+  }, [search]);
 
   return (
     <Grid
@@ -48,10 +61,9 @@ export const Results: React.FC<IResultsProps> = ({ list, ...props }) => {
         spacing={2}
         justify="center"
       >
-        {list &&
-          list.results &&
-          list.results.map((movie) => (
-            <Grid item xs={12} sm={6} md={4} lg={3}>
+        {results &&
+          results.results.map((movie) => (
+            <Grid key={movie.id} item xs={12} sm={6} md={4} lg={3}>
               <Movie key={movie.id} movie={movie} />
             </Grid>
           ))}
