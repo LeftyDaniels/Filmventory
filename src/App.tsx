@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Header, Footer, Search, Results } from './components';
+import { Header, Footer, Search, Results, Details } from './components';
 import { Grid, CssBaseline, makeStyles } from '@material-ui/core';
 import { Route, useHistory } from 'react-router-dom';
 
@@ -37,6 +37,10 @@ function App() {
         <Grid item container xs className={styles.results}>
           <Route path="/search/:search">
             <Results />
+          </Route>
+
+          <Route path="/details/:movie">
+            <Details />
           </Route>
         </Grid>
       </Grid>
