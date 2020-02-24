@@ -1,16 +1,11 @@
 import * as React from 'react';
-import { Grid, makeStyles, Typography } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
 import { Movie } from '../';
 import { IAPIMovie, APIActions, useApi } from '../../hooks';
 import { useParams } from 'react-router-dom';
 
-const useStyles = makeStyles({
-  root: {},
-});
-
 export const Results: React.FC = (props) => {
   const [result, setResult] = React.useState<IAPIMovie | undefined>();
-  const styles = useStyles();
   const api = useApi();
   const { movie } = useParams();
 
