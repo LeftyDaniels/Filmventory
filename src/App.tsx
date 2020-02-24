@@ -7,7 +7,7 @@ const useStyles = makeStyles({
   root: {
     height: '100vh',
   },
-  results: {
+  content: {
     overflow: 'auto',
   },
 });
@@ -30,18 +30,35 @@ function App() {
       </Grid>
 
       <Grid item container xs spacing={2} direction="column">
-        <Grid item container xs="auto">
-          <Search onSearch={changeHandler} />
+        <Grid
+          item
+          container
+          xs="auto"
+          justify="center"
+          alignContent="flex-start"
+        >
+          <Grid component="section" item container xs={10}>
+            <Search onSearch={changeHandler} />
+          </Grid>
         </Grid>
 
-        <Grid item container xs className={styles.results}>
-          <Route path="/search/:search">
-            <Results />
-          </Route>
+        <Grid
+          item
+          container
+          xs
+          className={styles.content}
+          justify="center"
+          alignContent="flex-start"
+        >
+          <Grid component="section" item container xs={10}>
+            <Route path="/search/:search">
+              <Results />
+            </Route>
 
-          <Route path="/details/:movie">
-            <Details />
-          </Route>
+            <Route path="/details/:movie">
+              <Details />
+            </Route>
+          </Grid>
         </Grid>
       </Grid>
 

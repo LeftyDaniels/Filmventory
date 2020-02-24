@@ -13,8 +13,6 @@ export const Search: React.FC<ISearchProps> = ({ onSearch, ...props }) => {
 
   const match = useRouteMatch<{ search: string }>('/search/:search');
 
-  console.log(match?.params);
-
   const searchHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.persist();
 
@@ -22,18 +20,16 @@ export const Search: React.FC<ISearchProps> = ({ onSearch, ...props }) => {
   };
 
   return (
-    <Grid container justify="center" {...props}>
-      <Grid item xs={8}>
-        <TextField
-          id="movie-lookup-search-field"
-          type="search"
-          variant="outlined"
-          label="Lookup a Movie:"
-          fullWidth
-          onChange={searchHandler}
-          defaultValue={match?.params?.search}
-        />
-      </Grid>
+    <Grid item xs={12} {...props}>
+      <TextField
+        id="movie-lookup-search-field"
+        type="search"
+        variant="outlined"
+        label="Lookup a Movie:"
+        fullWidth
+        onChange={searchHandler}
+        defaultValue={match?.params?.search}
+      />
     </Grid>
   );
 };

@@ -3,7 +3,7 @@ import { Typography, makeStyles, Grid } from '@material-ui/core';
 
 export interface IMoviePosterProps {
   poster: string;
-  title: string;
+  title?: string;
 }
 
 const useStyles = makeStyles({
@@ -30,11 +30,13 @@ export const Movie: React.FC<IMoviePosterProps> = ({
         xs={12}
       />
 
-      <Grid component="figcaption" item xs={12}>
-        <Typography component="h3" variant="h6" align="center">
-          {title}
-        </Typography>
-      </Grid>
+      {title && (
+        <Grid component="figcaption" item xs={12}>
+          <Typography component="h3" variant="h6" align="center">
+            {title}
+          </Typography>
+        </Grid>
+      )}
     </Grid>
   );
 };

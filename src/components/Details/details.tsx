@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { Grid, Typography, makeStyles } from '@material-ui/core';
+import { Grid, makeStyles, Typography } from '@material-ui/core';
+import { Movie } from '../';
 import { IAPIMovie, APIActions, useApi } from '../../hooks';
 import { useParams } from 'react-router-dom';
 
@@ -24,17 +25,12 @@ export const Results: React.FC = (props) => {
 
   console.log(result);
 
-  return (
-    <Grid
-      component="section"
-      container
-      justify="center"
-      className={styles.root}
-      alignContent="flex-start"
-      {...props}
-    >
-      Details for {result?.title}
-    </Grid>
+  return result && result.title ? (
+    <Movie movie={result} />
+  ) : (
+    <Typography variant="body1">
+      Sorry, but I couldn't find that movie. Try searching for another one!
+    </Typography>
   );
 };
 

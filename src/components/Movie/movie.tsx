@@ -1,11 +1,10 @@
 import * as React from 'react';
-import { makeStyles, Paper, ButtonBase } from '@material-ui/core';
+import { makeStyles, Paper, Grid, Typography } from '@material-ui/core';
 import { MoviePoster } from '../';
-import { IAPISearchResult } from '../../hooks';
+import { IAPIMovie } from '../../hooks';
 
 export interface IMovieProps {
-  movie: IAPISearchResult;
-  onClick: (e: React.MouseEvent<HTMLButtonElement>, movieId: string) => void;
+  movie: IAPIMovie;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -27,18 +26,28 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const Movie: React.FC<IMovieProps> = ({ movie, onClick, ...props }) => {
+export const Movie: React.FC<IMovieProps> = ({ movie, ...props }) => {
   const styles = useStyles();
 
   return (
-    <Paper component="li" className={styles.root} {...props}>
-      <ButtonBase
-        focusRipple
-        className={styles.button}
-        onClick={(e) => onClick(e, String(movie.id))}
-      >
-        <MoviePoster poster={movie.poster_path} title={movie.title} />
-      </ButtonBase>
+    <Paper className={styles.root} {...props}>
+      <Grid container spacing={2}>
+        <Grid item xs={4}>
+          <MoviePoster poster={movie.poster_path} />
+        </Grid>
+
+        <Grid item xs={8}>
+          <Grid item xs={12}>
+            <Typography component="h2" variant="h3">
+              {movie.title}
+            </Typography>
+          </Grid>
+
+          <Grid item xs={12}>
+            <Typography variant="body1">{movie.overview}</Typography>
+          </Grid>
+        </Grid>
+      </Grid>
     </Paper>
   );
 };

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Movie } from '../';
+import { MovieResult } from '../';
 import { Grid, Typography, makeStyles } from '@material-ui/core';
 import { IAPISearch, APIActions, useApi } from '../../hooks';
 import { useParams, useHistory } from 'react-router-dom';
@@ -38,15 +38,8 @@ export const Results: React.FC = ({ ...props }) => {
   }, [search]);
 
   return (
-    <Grid
-      component="section"
-      container
-      justify="center"
-      className={styles.root}
-      alignContent="flex-start"
-      {...props}
-    >
-      <Grid component="header" item xs={8} className={styles.header}>
+    <Grid container className={styles.root} {...props}>
+      <Grid component="header" item xs={12} className={styles.header}>
         <Typography
           id="movie-lookup-search-results-header"
           component="h2"
@@ -60,7 +53,7 @@ export const Results: React.FC = ({ ...props }) => {
         component="ol"
         container
         item
-        xs={8}
+        xs={12}
         aria-describedby="movie-lookup-search-results-header"
         className={styles.results}
         spacing={2}
@@ -69,7 +62,11 @@ export const Results: React.FC = ({ ...props }) => {
         {results &&
           results.results.map((movie) => (
             <Grid key={movie.id} item xs={12} sm={6} md={4} lg={3}>
-              <Movie key={movie.id} movie={movie} onClick={clickHandler} />
+              <MovieResult
+                key={movie.id}
+                movie={movie}
+                onClick={clickHandler}
+              />
             </Grid>
           ))}
       </Grid>
