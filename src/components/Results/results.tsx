@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { MovieResult } from '../';
 import { Grid, Typography, makeStyles } from '@material-ui/core';
-import { IAPISearch, APIActions, useApi } from '../../hooks';
+import { IAPISearch, EAPIActions, useApi } from '../../hooks';
 import { useParams, useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles({
@@ -17,12 +17,12 @@ export const Results: React.FC = ({ ...props }) => {
   /* Utility Hooks */
   const [results, setResults] = React.useState<IAPISearch | undefined>();
   const styles = useStyles();
-  const api = useApi();
+  const api = useApi(EAPIActions.search);
   const { search } = useParams();
   const history = useHistory();
 
   const searchHandler = async (term: string = '') => {
-    const searchResults = await api<IAPISearch>(APIActions.search, term);
+    const searchResults = await api(term);
     setResults(searchResults);
   };
 

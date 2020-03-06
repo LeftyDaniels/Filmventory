@@ -1,9 +1,10 @@
 const API_BASE = 'https://api.themoviedb.org/3/';
 const API_KEY = '7a98e86c5a5a99680912f385743ea4cc';
 
-export enum APIActions {
+export enum EAPIActions {
   search = 'search/movie',
   movie = 'movie',
+  discover = 'discover/movie',
 }
 
 export interface IAPISearch {
@@ -81,29 +82,76 @@ export interface IAPISpokenLanguage {
   name: string;
 }
 
-export type TUseApi = () => <T>(a: APIActions, t: string) => Promise<T>;
+export interface IAPIDiscoverOptions {
+  language?: string;
+  region?: string;
+  sort_by?:
+    | 'popularity.asc'
+    | 'popularity.desc'
+    | ' release_date.asc'
+    | 'release_date.desc'
+    | 'revenue.asc'
+    | 'revenue.desc'
+    | 'primary_release_date.asc'
+    | 'primary_release_date.desc'
+    | 'original_title.asc'
+    | 'original_title.desc'
+    | 'vote_average.asc'
+    | 'vote_average.desc'
+    | 'vote_count.asc'
+    | 'vote_count.desc';
+}
 
-export const useApi: TUseApi = () => async <T>(
-  action: APIActions,
-  term: string,
-) => {
-  let api: string;
+type TUseApiSearch = (term: string) => Promise<IAPISearch>;
 
-  switch (action) {
-    case APIActions.search: {
-      api = `${API_BASE}${action}?api_key=${API_KEY}&query=${encodeURI(term)}`;
+type TUseApiMovie = (movie: string) => Promise<IAPIMovie>;
+
+type TUseApiDiscover = (options: IAPIDiscoverOptions) => Promise<any>;
+
+export type TUseApi = (
+  queryType: EAPIActions,
+) => TUseApiSearch | TUseApiMovie | TUseApiDiscover;
+
+export const useApi: TUseApi = (queryType) => {
+  let apiRequestCallback;
+
+  switch (queryType) {
+    case EAPIActions.search: {
+      apiRequestCallback = async (term: string) => {
+        const api = `${API_BASE}${
+          EAPIActions.search
+        }?api_key=${API_KEY}&query=${encodeURI(term)}`;
+
+        return (await (await fetch(api)).json()) as Promise<IAPISearch>;
+      };
       break;
     }
 
-    case APIActions.movie: {
-      api = `${API_BASE}${action}/${term}?api_key=${API_KEY}`;
+    case EAPIActions.movie: {
+      apiRequestCallback = async (term: string) => {
+        const api = `${API_BASE}${EAPIActions.movie}/${term}?api_key=${API_KEY}`;
+        return (await (await fetch(api)).json()) as Promise<IAPIMovie>;
+      };
+      break;
+    }
+
+    case EAPIActions.discover: {
+      apiRequestCallback = async (options: IAPIDiscoverOptions) => {
+        let discoverOptions = '';
+        let option: keyof IAPIDiscoverOptions;
+
+        for (option in options) {
+          discoverOptions.concat(`${option}${options[option]}&`);
+        }
+
+        const api = `${API_BASE}${EAPIActions.discover}?${discoverOptions}api_key=${API_KEY}`;
+        return (await (await fetch(api)).json()) as Promise<any>;
+      };
       break;
     }
   }
 
-  const response = await fetch(api);
-
-  return await response.json().then<T>();
+  return apiRequestCallback;
 };
 
 export default useApi;
