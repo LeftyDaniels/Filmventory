@@ -1,8 +1,12 @@
 import * as React from 'react';
 import { MovieResult } from '../';
 import { Grid, Typography, makeStyles } from '@material-ui/core';
-import { IAPISearch, EAPIActions, useApi } from '../../hooks';
-import { useParams, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
+import { IAPISearchResult } from '../../hooks';
+
+export interface IResultsProps {
+  movies?: IAPISearchResult[];
+}
 
 const useStyles = makeStyles({
   root: {},
@@ -13,18 +17,10 @@ const useStyles = makeStyles({
   },
 });
 
-export const Results: React.FC = ({ ...props }) => {
+export const Results: React.FC<IResultsProps> = ({ movies, ...props }) => {
   /* Utility Hooks */
-  const [results, setResults] = React.useState<IAPISearch | undefined>();
   const styles = useStyles();
-  const api = useApi(EAPIActions.search);
-  const { search } = useParams();
   const history = useHistory();
-
-  const searchHandler = async (term: string = '') => {
-    const searchResults = await api(term);
-    setResults(searchResults);
-  };
 
   const clickHandler = (
     e: React.MouseEvent<HTMLButtonElement>,
@@ -32,10 +28,6 @@ export const Results: React.FC = ({ ...props }) => {
   ) => {
     history.push(`/details/${movieId}`);
   };
-
-  React.useEffect(() => {
-    searchHandler(search);
-  }, [search]);
 
   return (
     <Grid container className={styles.root} {...props}>
@@ -59,8 +51,8 @@ export const Results: React.FC = ({ ...props }) => {
         spacing={2}
         justify="center"
       >
-        {results &&
-          results.results.map((movie) => (
+        {movies &&
+          movies.map((movie) => (
             <Grid key={movie.id} item xs={12} sm={6} md={4} lg={3}>
               <MovieResult
                 key={movie.id}

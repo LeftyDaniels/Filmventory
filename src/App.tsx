@@ -1,7 +1,8 @@
 import * as React from 'react';
-import { Header, Footer, Search, Results, Details } from './components';
-import { Grid, CssBaseline, makeStyles } from '@material-ui/core';
+import { Header, Footer, SearchInput, Details } from './components';
+import { Grid, CssBaseline, makeStyles, Typography } from '@material-ui/core';
 import { Route, Switch, useHistory } from 'react-router-dom';
+import { SearchResults } from './components';
 
 const useStyles = makeStyles({
   root: {
@@ -38,7 +39,7 @@ function App() {
           alignContent="flex-start"
         >
           <Grid component="section" item container xs={10}>
-            <Search onSearch={changeHandler} />
+            <SearchInput onSearch={changeHandler} />
           </Grid>
         </Grid>
 
@@ -53,7 +54,10 @@ function App() {
           <Grid component="section" item container xs={10}>
             <Switch>
               <Route path="/search/:search">
-                <Results />
+                <Typography variant="h2" align="center">
+                  Search Results
+                </Typography>
+                <SearchResults />
               </Route>
 
               <Route path="/details/:movie">
@@ -61,7 +65,11 @@ function App() {
               </Route>
 
               <Route path="/">
-                <Results />
+                <Typography variant="h2" align="center">
+                  Popular Movies
+                </Typography>
+
+                <SearchResults />
               </Route>
             </Switch>
           </Grid>

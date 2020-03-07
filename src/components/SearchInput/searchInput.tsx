@@ -3,11 +3,14 @@ import { Grid, TextField } from '@material-ui/core';
 import { useDebounce } from '../../hooks';
 import { useRouteMatch } from 'react-router-dom';
 
-export interface ISearchProps {
+export interface ISearchInputProps {
   onSearch: React.ChangeEventHandler<HTMLInputElement>;
 }
 
-export const Search: React.FC<ISearchProps> = ({ onSearch, ...props }) => {
+export const SearchInput: React.FC<ISearchInputProps> = ({
+  onSearch,
+  ...props
+}) => {
   /* Utility Hooks */
   const searchDebounce = useDebounce();
 
@@ -34,4 +37,4 @@ export const Search: React.FC<ISearchProps> = ({ onSearch, ...props }) => {
   );
 };
 
-export default Search;
+export default SearchInput;

@@ -102,17 +102,19 @@ export interface IAPIDiscoverOptions {
     | 'vote_count.desc';
 }
 
-type TUseApiSearch = (term: string) => Promise<IAPISearch>;
+export function useApi(
+  queryType: EAPIActions.search,
+): (term: string) => Promise<IAPISearch>;
 
-type TUseApiMovie = (movie: string) => Promise<IAPIMovie>;
+export function useApi(
+  queryType: EAPIActions.movie,
+): (movie: string) => Promise<IAPIMovie>;
 
-type TUseApiDiscover = (options: IAPIDiscoverOptions) => Promise<any>;
+export function useApi(
+  queryType: EAPIActions.discover,
+): (options: IAPIDiscoverOptions) => Promise<any>;
 
-export type TUseApi = (
-  queryType: EAPIActions,
-) => TUseApiSearch | TUseApiMovie | TUseApiDiscover;
-
-export const useApi: TUseApi = (queryType) => {
+export function useApi(queryType: EAPIActions) {
   let apiRequestCallback;
 
   switch (queryType) {
@@ -152,6 +154,6 @@ export const useApi: TUseApi = (queryType) => {
   }
 
   return apiRequestCallback;
-};
+}
 
 export default useApi;
