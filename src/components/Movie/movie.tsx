@@ -1,10 +1,23 @@
 import * as React from 'react';
-import { makeStyles, Paper, Grid, Typography } from '@material-ui/core';
+import {
+  makeStyles,
+  Paper,
+  Grid,
+  Typography,
+  PaperProps,
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
+  Avatar,
+  Divider,
+} from '@material-ui/core';
 import { MoviePoster } from '../';
-import { IAPIMovie } from '../../hooks';
+import { IAPIMovie, IAPIMovieCredits } from '../../hooks';
 
-export interface IMovieProps {
+export interface IMovieProps extends PaperProps {
   movie: IAPIMovie;
+  credits: IAPIMovieCredits;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -24,10 +37,21 @@ const useStyles = makeStyles((theme) => ({
   poster: {
     margin: 0,
   },
+  peopleAvatar: {
+    width: theme.spacing(6),
+    height: theme.spacing(10),
+  },
 }));
 
-export const Movie: React.FC<IMovieProps> = ({ movie, ...props }) => {
+export const Movie: React.FC<IMovieProps> = ({ movie, credits, ...props }) => {
   const styles = useStyles();
+
+  let director = credits.crew.find(
+    (crewMember) => crewMember.job === 'Director',
+  );
+  let processedCrew = credits.crew.filter(
+    (crewMember) => crewMember.job !== 'Director',
+  );
 
   return (
     <Paper className={styles.root} {...props}>
@@ -36,15 +60,77 @@ export const Movie: React.FC<IMovieProps> = ({ movie, ...props }) => {
           <MoviePoster poster={movie.poster_path} />
         </Grid>
 
-        <Grid item xs={8}>
+        <Grid item container xs={8}>
           <Grid item xs={12}>
             <Typography component="h2" variant="h3">
               {movie.title}
+            </Typography>
+
+            <Typography variant="subtitle1">
+              {director?.name && `Directed By ${director.name}`}
             </Typography>
           </Grid>
 
           <Grid item xs={12}>
             <Typography variant="body1">{movie.overview}</Typography>
+          </Grid>
+
+          <Grid item container xs={12}>
+            <Grid item xs={6}>
+              <Typography variant="h3">Cast</Typography>
+
+              <List>
+                {credits.cast.map((castMember) => (
+                  <React.Fragment>
+                    <ListItem key={castMember.id}>
+                      <ListItemAvatar>
+                        <Avatar
+                          className={styles.peopleAvatar}
+                          alt={castMember.name}
+                          src={`https://image.tmdb.org/t/p/w500${castMember.profile_path}`}
+                          variant="rounded"
+                        />
+                      </ListItemAvatar>
+
+                      <ListItemText
+                        primary={castMember.name}
+                        secondary={castMember.character}
+                      />
+                    </ListItem>
+
+                    <Divider variant="middle" component="li" />
+                  </React.Fragment>
+                ))}
+              </List>
+            </Grid>
+
+            <Grid item xs={6}>
+              <Typography variant="h3">Crew</Typography>
+
+              <List>
+                {processedCrew.map((crewMember, i) => (
+                  <React.Fragment>
+                    <ListItem key={crewMember.id}>
+                      <ListItemAvatar>
+                        <Avatar
+                          className={styles.peopleAvatar}
+                          alt={crewMember.name}
+                          src={`https://image.tmdb.org/t/p/w500${crewMember.profile_path}`}
+                          variant="rounded"
+                        />
+                      </ListItemAvatar>
+
+                      <ListItemText
+                        primary={crewMember.name}
+                        secondary={crewMember.job}
+                      />
+                    </ListItem>
+
+                    <Divider variant="middle" component="li" />
+                  </React.Fragment>
+                ))}
+              </List>
+            </Grid>
           </Grid>
         </Grid>
       </Grid>

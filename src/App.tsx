@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Header, Footer, SearchInput, Details } from './components';
+import { Header, Footer, SearchInput, MovieDetails } from './components';
 import { Grid, CssBaseline, makeStyles, Typography } from '@material-ui/core';
 import { Route, Switch, useHistory } from 'react-router-dom';
 import { SearchResults } from './components';
@@ -57,11 +57,12 @@ function App() {
                 <Typography variant="h2" align="center">
                   Search Results
                 </Typography>
+
                 <SearchResults />
               </Route>
 
               <Route path="/details/:movie">
-                <Details />
+                <MovieDetails />
               </Route>
 
               <Route path="/">

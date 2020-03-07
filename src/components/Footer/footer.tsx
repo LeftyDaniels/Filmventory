@@ -6,7 +6,6 @@ export interface IFooterProps {}
 const useStyles = makeStyles((theme) => ({
   root: {
     padding: theme.spacing(2),
-    marginBottom: theme.spacing(2),
   },
 }));
 
