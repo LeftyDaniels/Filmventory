@@ -10,7 +10,6 @@ export interface IMovieResultProps {
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    padding: theme.spacing(2),
     height: '100%',
   },
   button: {
@@ -38,7 +37,7 @@ export const MovieResult: React.FC<IMovieResultProps> = ({
         className={styles.button}
         onClick={(e) => onClick(e, String(movie.id))}
       >
-        <MoviePoster poster={movie.poster_path} title={movie.title} />
+        <MoviePoster poster={movie.poster_path} />
       </ButtonBase>
     </Paper>
   );

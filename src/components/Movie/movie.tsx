@@ -22,7 +22,14 @@ export interface IMovieProps extends PaperProps {
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    padding: theme.spacing(2),
+    padding: theme.spacing(1),
+    height: '99%',
+    overflow: 'hidden',
+  },
+  container: {
+    height: '100%',
+  },
+  imageContainer: {
     height: '100%',
   },
   button: {
@@ -41,6 +48,10 @@ const useStyles = makeStyles((theme) => ({
     width: theme.spacing(6),
     height: theme.spacing(10),
   },
+  details: {
+    height: '100%',
+    overflow: 'auto',
+  },
 }));
 
 export const Movie: React.FC<IMovieProps> = ({ movie, credits, ...props }) => {
@@ -49,18 +60,19 @@ export const Movie: React.FC<IMovieProps> = ({ movie, credits, ...props }) => {
   let director = credits.crew.find(
     (crewMember) => crewMember.job === 'Director',
   );
+
   let processedCrew = credits.crew.filter(
     (crewMember) => crewMember.job !== 'Director',
   );
 
   return (
     <Paper className={styles.root} {...props}>
-      <Grid container spacing={2}>
-        <Grid item xs={4}>
+      <Grid container spacing={2} className={styles.container}>
+        <Grid item container xs={4} className={styles.imageContainer}>
           <MoviePoster poster={movie.poster_path} />
         </Grid>
 
-        <Grid item container xs={8}>
+        <Grid item container xs={8} className={styles.details}>
           <Grid item xs={12}>
             <Typography component="h2" variant="h3">
               {movie.title}
@@ -108,6 +120,24 @@ export const Movie: React.FC<IMovieProps> = ({ movie, credits, ...props }) => {
               <Typography variant="h3">Crew</Typography>
 
               <List>
+                <ListItem>
+                  <ListItemAvatar>
+                    <Avatar
+                      className={styles.peopleAvatar}
+                      alt={director?.name}
+                      src={`https://image.tmdb.org/t/p/w500${director?.profile_path}`}
+                      variant="rounded"
+                    />
+                  </ListItemAvatar>
+
+                  <ListItemText
+                    primary={director?.name}
+                    secondary={director?.job}
+                  />
+                </ListItem>
+
+                <Divider variant="middle" component="li" />
+
                 {processedCrew.map((crewMember, i) => (
                   <React.Fragment>
                     <ListItem key={crewMember.id}>

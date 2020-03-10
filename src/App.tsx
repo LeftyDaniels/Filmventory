@@ -4,14 +4,22 @@ import { Grid, CssBaseline, makeStyles, Typography } from '@material-ui/core';
 import { Route, Switch, useHistory } from 'react-router-dom';
 import { SearchResults } from './components';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   root: {
     height: '100vh',
   },
+  header: {
+    marginBottom: theme.spacing(2),
+  },
+  searchInput: {
+    marginBottom: theme.spacing(2),
+  },
   content: {
     overflow: 'auto',
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2),
   },
-});
+}));
 
 function App() {
   /* Utility Hooks */
@@ -26,17 +34,18 @@ function App() {
     <Grid container direction="column" className={styles.root}>
       <CssBaseline />
 
-      <Grid item xs="auto">
+      <Grid item xs="auto" className={styles.header}>
         <Header />
       </Grid>
 
-      <Grid item container xs spacing={2} direction="column">
+      <Grid item container xs direction="column">
         <Grid
           item
           container
           xs="auto"
           justify="center"
           alignContent="flex-start"
+          className={styles.searchInput}
         >
           <Grid component="section" item container xs={10}>
             <SearchInput onSearch={changeHandler} />
@@ -44,6 +53,7 @@ function App() {
         </Grid>
 
         <Grid
+          component="section"
           item
           container
           xs
@@ -51,29 +61,27 @@ function App() {
           justify="center"
           alignContent="flex-start"
         >
-          <Grid component="section" item container xs={10}>
-            <Switch>
-              <Route path="/search/:search">
-                <Typography variant="h2" align="center">
-                  Search Results
-                </Typography>
+          <Switch>
+            <Route path="/search/:search">
+              <Typography variant="h2" align="center">
+                Search Results
+              </Typography>
 
-                <SearchResults />
-              </Route>
+              <SearchResults />
+            </Route>
 
-              <Route path="/details/:movie">
-                <MovieDetails />
-              </Route>
+            <Route path="/details/:movie">
+              <MovieDetails />
+            </Route>
 
-              <Route path="/">
-                <Typography variant="h2" align="center">
-                  Popular Movies
-                </Typography>
+            <Route path="/">
+              <Typography variant="h2" align="center">
+                Popular Movies
+              </Typography>
 
-                <SearchResults />
-              </Route>
-            </Switch>
-          </Grid>
+              <SearchResults />
+            </Route>
+          </Switch>
         </Grid>
       </Grid>
 

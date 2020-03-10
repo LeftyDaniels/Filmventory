@@ -48,7 +48,7 @@ export const Results: React.FC<IResultsProps> = ({ movies, ...props }) => {
         xs={12}
         aria-describedby="movie-lookup-search-results-header"
         className={styles.results}
-        spacing={2}
+        spacing={1}
         justify="center"
       >
         {movies &&
