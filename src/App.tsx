@@ -1,12 +1,12 @@
-import * as React from "react";
-import { Header, Footer, SearchInput, MovieDetails } from "./components";
-import { Grid, CssBaseline, makeStyles, Typography } from "@material-ui/core";
-import { Route, Switch, useHistory } from "react-router-dom";
-import { SearchResults } from "./components";
+import * as React from 'react';
+import { Header, Footer, SearchInput, MovieDetails } from './components';
+import { Grid, CssBaseline, makeStyles, Typography } from '@material-ui/core';
+import { Route, Switch, useHistory } from 'react-router-dom';
+import { SearchResults } from './components';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    height: "100vh",
+    height: '100vh',
   },
   header: {
     marginBottom: theme.spacing(2),
@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(2),
   },
   content: {
-    overflow: "auto",
+    overflow: 'auto',
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(2),
   },

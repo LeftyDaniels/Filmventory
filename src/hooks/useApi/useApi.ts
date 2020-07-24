@@ -38,8 +38,9 @@ export function useApi(queryType: EAPIActions) {
         term: string,
         movieQueryType?: EAPIMovieActions,
       ) => {
-        const api = `${API_BASE}${EAPIActions.movie}/${term}${movieQueryType &&
-          `/${movieQueryType}`}?api_key=${API_KEY}`;
+        const api = `${API_BASE}${EAPIActions.movie}/${term}${
+          movieQueryType && `/${movieQueryType}`
+        }?api_key=${API_KEY}`;
         return await (await fetch(api)).json();
       };
       break;

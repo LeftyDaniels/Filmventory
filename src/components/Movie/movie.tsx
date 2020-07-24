@@ -93,7 +93,7 @@ export const Movie: React.FC<IMovieProps> = ({ movie, credits, ...props }) => {
 
               <List>
                 {credits.cast.map((castMember) => (
-                  <React.Fragment>
+                  <React.Fragment key={castMember.id}>
                     <ListItem key={castMember.id}>
                       <ListItemAvatar>
                         <Avatar
@@ -139,7 +139,7 @@ export const Movie: React.FC<IMovieProps> = ({ movie, credits, ...props }) => {
                 <Divider variant="middle" component="li" />
 
                 {processedCrew.map((crewMember, i) => (
-                  <React.Fragment>
+                  <React.Fragment key={crewMember.id}>
                     <ListItem key={crewMember.id}>
                       <ListItemAvatar>
                         <Avatar

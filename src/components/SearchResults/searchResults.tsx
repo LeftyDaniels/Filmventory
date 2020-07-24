@@ -26,7 +26,7 @@ export const SearchResults: React.FC = () => {
     } else {
       discoverHandler({ sort_by: 'popularity.desc' });
     }
-  }, [search, discover]);
+  }, [search, discover, searchHandler, discoverHandler]);
 
   const searchHandler = async (term: string = '') => {
     const searchResults = await searchApi(term);

@@ -29,13 +29,13 @@ export const Results: React.FC = (props) => {
 
   React.useEffect(() => {
     fetchMovie(movieId);
-  }, [movieId]);
+  }, [fetchMovie, movieId]);
 
   return movie?.title && credits ? (
     <Movie movie={movie} credits={credits} />
   ) : (
     <Typography variant="body1">
-      Sorry, but I couldn't find that movie. Try searching for another one!
+      Sorry, but I couldn&apos;t find that movie. Try searching for another one!
     </Typography>
   );
 };
